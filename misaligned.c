@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <assert.h>
+#include <string.h>
 
 // Function to return a formatted string for testing purposes
 const char* getColorMapEntry(int majorIndex, int minorIndex) {
