@@ -28,7 +28,7 @@ void testColorMap() {
     assert(strcmp(getColorMapEntry(2, 2), "12 | Black  | Green ") == 0);
     assert(strcmp(getColorMapEntry(3, 3), "18 | Yellow | Brown ") == 0);
     assert(strcmp(getColorMapEntry(4, 4), "24 | Violet | Slate ") == 0);
-    assert(strcmp(getColorMapEntry(1, 2), "7 | Red | Green") != 0);
+    assert(strcmp(getColorMapEntry(1, 2), "7 | Red | Green") == 0);
 }
 
 int main() {
