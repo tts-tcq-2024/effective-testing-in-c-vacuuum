@@ -12,28 +12,56 @@ const char* getColorMapEntry(int majorIndex, int minorIndex) {
 }
 
 // Function to print the color map using the getColorMapEntry function
-void printColorMap() {
+int printColorMap(void (*fp)(const char*)) {
     int majorIndex, minorIndex;
-    for ( majorIndex = 0; majorIndex < 5; majorIndex++) {
+    for (majorIndex = 0; majorIndex < 5; majorIndex++) {
         for (minorIndex = 0; minorIndex < 5; minorIndex++) {
-            printf("%s\n", getColorMapEntry(majorIndex, minorIndex));
+            fp(getColorMapEntry(majorIndex, minorIndex));
         }
     }
+    return majorIndex * minorIndex;
 }
 
-// Test function to check if the color map entries are correctly aligned and formatted
-void testColorMap() {
-    assert(strcmp(getColorMapEntry(0, 0), " 0 | White  | Blue  ") == 0);
-    assert(strcmp(getColorMapEntry(1, 1), " 6 | Red    | Orange") == 0);
-    assert(strcmp(getColorMapEntry(2, 2), "12 | Black  | Green ") == 0);
-    assert(strcmp(getColorMapEntry(3, 3), "18 | Yellow | Brown ") == 0);
-    assert(strcmp(getColorMapEntry(4, 4), "24 | Violet | Slate ") == 0);
-    assert(strcmp(getColorMapEntry(1, 2), "7 | Red | Green") == 0);
+// Mock environment to test
+char actualManual[1024 * 10] = {0};  // Array to hold all generated strings
+
+void mockPrintOnConsole(const char* manualItem) {
+    strcat(actualManual, manualItem);  // Append the current string to the manual buffer
+    strcat(actualManual, "\n");        // Add newline after each item for proper formatting
 }
 
 int main() {
-    testColorMap();
-    printColorMap();
+    int result = printColorMap(&mockPrintOnConsole);
+    assert(result == 25);
+    
+    const char *expectedConsoleBuffer =
+    " 0 | White  | Blue  \n"
+    " 1 | White  | Orange\n"
+    " 2 | White  | Green \n"
+    " 3 | White  | Brown \n"
+    " 4 | White  | Slate \n"
+    " 5 | Red    | Blue  \n"
+    " 6 | Red    | Orange\n"
+    " 7 | Red    | Green \n"
+    " 8 | Red    | Brown \n"
+    " 9 | Red    | Slate \n"
+    "10 | Black  | Blue  \n"
+    "11 | Black  | Orange\n"
+    "12 | Black  | Green \n"
+    "13 | Black  | Brown \n"
+    "14 | Black  | Slate \n"
+    "15 | Yellow | Blue  \n"
+    "16 | Yellow | Orange\n"
+    "17 | Yellow | Green \n"
+    "18 | Yellow | Brown \n"
+    "19 | Yellow | Slate \n"
+    "20 | Violet | Blue  \n"
+    "21 | Violet | Orange\n"
+    "22 | Violet | Green \n"
+    "23 | Violet | Brown \n"
+    "24 | Violet | Slate \n";
+    
+    assert(strcmp(actualManual, expectedConsoleBuffer) == 0);
     printf("All is well (maybe!)\n");
     return 0;
 }
