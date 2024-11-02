@@ -22,6 +22,15 @@ int printColorMap(void (*fp)(const char*)) {
     return majorIndex * minorIndex;
 }
 
+void testColorMap() {
+    assert(strcmp(getColorMapEntry(0, 0), " 0 | White  | Blue  ") == 0);
+    assert(strcmp(getColorMapEntry(1, 1), " 6 | Red    | Orange") == 0);
+    assert(strcmp(getColorMapEntry(2, 2), "12 | Black  | Green ") == 0);
+    assert(strcmp(getColorMapEntry(3, 3), "18 | Yellow | Brown ") == 0);
+    assert(strcmp(getColorMapEntry(4, 4), "24 | Violet | Slate ") == 0);
+    assert(strcmp(getColorMapEntry(1, 2), "7 | Red | Green") == 0);
+}
+
 // Mock environment to test
 char actualManual[1024 * 10] = {0};  // Array to hold all generated strings
 
@@ -33,7 +42,7 @@ void mockPrintOnConsole(const char* manualItem) {
 int main() {
     int result = printColorMap(&mockPrintOnConsole);
     assert(result == 25);
-    
+    testColorMap();
     const char *expectedConsoleBuffer =
     " 0 | White  | Blue  \n"
     " 1 | White  | Orange\n"
